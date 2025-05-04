@@ -22,9 +22,8 @@ def login_user(request):
             auth_login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Invalid username or password.')
+            messages.warning(request, 'Invalid username or password.')
             return redirect('login')
-    return render(request, 'login.html')
 
 @login_required(login_url='login')
 def users(request):
