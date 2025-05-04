@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 
 @login_required(login_url='login')
@@ -18,7 +18,7 @@ def login_user(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
+            auth_login(request, user)
             return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
