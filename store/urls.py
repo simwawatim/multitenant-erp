@@ -7,7 +7,9 @@ from store import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', views.login, name='login'),
+    path('home', views.home, name='home'),
+    path('login_user', views.login_user, name='login_user'),
 ]
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL,

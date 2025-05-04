@@ -26,6 +26,7 @@ def login_user(request):
             return redirect('login')
     return render(request, 'login.html')
 
+@login_required(login_url='login')
 def users(request):
     users = User.objects.all()
     context = {
@@ -33,7 +34,7 @@ def users(request):
     }
     return render(request, 'base/users.html', context)
 
-
+@login_required(login_url='login')
 def create_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')

@@ -35,9 +35,8 @@ TENANT_APPS = [
 
 INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
 
-# Tenant configuration
-TENANT_MODEL = "store.Store"          # app.Model
-TENANT_DOMAIN_MODEL = "store.Domain"  # app.Model
+TENANT_MODEL = "store.Store"
+TENANT_DOMAIN_MODEL = "store.Domain"
 
 MIDDLEWARE = [
     'django_tenants.middleware.main.TenantMainMiddleware',
@@ -118,3 +117,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+PUBLIC_SCHEMA_URLCONF = 'store.urls'

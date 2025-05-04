@@ -2,10 +2,13 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
-login_required(login_url='/login/')
-def index(request):
-    return render(request, 'store/index.html')
-
-
 def login(request):
     return render(request, 'store/login.html')
+
+
+def home(request):
+    return render(request, 'store/login.html')
+
+
+def login_user(request):
+    pass
