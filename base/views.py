@@ -24,3 +24,6 @@ def login_user(request):
             messages.error(request, 'Invalid username or password.')
             return redirect('login')
     return render(request, 'login.html')
+
+def users(request):
+    return render(request, 'base/users.html')
