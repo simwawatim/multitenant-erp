@@ -7,7 +7,7 @@ from django.contrib import messages
 def login(request):
     return render(request, 'store/login.html')
 
-
+login_required
 def home(request):
     return render(request, 'store/index.html')
 
@@ -23,3 +23,8 @@ def login_user(request):
         else:
             messages.warning(request, 'Invalid username or password.')
             return redirect('login')
+        
+
+login_required
+def stores(request):
+    return render(request, 'store/stores.html')
