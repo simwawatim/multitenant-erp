@@ -1,5 +1,4 @@
 {% extends "store/includes/header.html" %}
-
 {% load static %}
 {% block content %}
 
@@ -13,116 +12,113 @@
                         <div class="page-header-title">
                             <h5 class="m-b-10">Employees</h5>
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
         <!-- [ breadcrumb ] end -->
+
         <!-- [ Main Content ] start -->
         <div class="row">
-            <!-- customar project  start -->
+            <!-- customer project start -->
             <div class="col-xl-12">
                 <div class="card">
-                    
                     <div class="card-body">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-report">
+                            <i class="feather icon-plus"></i> Add Users
+                        </button>
+                    </div>
 
-                         <button class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#modal-report"><i class="feather icon-plus"></i> Add Users</button>
-                            </div>
-                        <div class="row align-items-center m-l-0">
-                            <div class="col-sm-6">
-                            </div>
-                            <div class="col-sm-6 text-end">
-                               
-                        </div>
-                        <div class="table-responsive">
-                            <table id="report-table" class="table table-bordered table-striped mb-0">
-                                <thead>
-                                    <tr>
-                                        
-                                        <th>Name</th>
-                                        <th>Stations</th>
-                                        <th> Date join </th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     {% for store in stores %}
-                                    <tr>
-                                        <td>{{ store.name }}</td>
-                                        <td>{{ store.description }}</td>
-                                        <td>{{ store.created_at|date:"Y-m-d H:i" }}</td>
-                                        <td>
-                                            {% if store.is_active %}
-                                                <span class="badge bg-success">Active</span>
-                                            {% else %}
-                                                <span class="badge bg-danger">Inactive</span>
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <a href="#!" class="btn btn-info btn-sm"><i class="feather icon-edit"></i>&nbsp;Edit </a>
-                                            <a href="#!" class="btn btn-danger btn-sm"><i class="feather icon-trash-2"></i>&nbsp;Delete </a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                 
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table id="report-table" class="table table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Stations</th>
+                                    <th>Date Join</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for store in stores %}
+                                <tr>
+                                    <td>{{ store.name }}</td>
+                                    <td>{{ store.description }}</td>
+                                    <td>{{ store.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>
+                                        {% if store.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="#!" class="btn btn-info btn-sm">
+                                            <i class="feather icon-edit"></i>&nbsp;Edit
+                                        </a>
+                                        <a href="#!" class="btn btn-danger btn-sm">
+                                            <i class="feather icon-trash-2"></i>&nbsp;Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!-- customar project  end -->
+            <!-- customer project end -->
         </div>
         <!-- [ Main Content ] end -->
     </div>
 </div>
 
-<div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="modal-report" tabindex="-1" aria-labelledby="modalReportLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Doctor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                <h5 class="modal-title" id="modalReportLabel">Add Doctor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="row">
+                        <!-- Form Fields -->
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Name">Name</label>
+                                <label for="Name">Name</label>
                                 <input type="text" class="form-control" id="Name" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group fill">
-                                <label class="floating-label" for="Email">Email</label>
+                            <div class="form-group">
+                                <label for="Email">Email</label>
                                 <input type="email" class="form-control" id="Email" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group fill">
-                                <label class="floating-label" for="Password">Password</label>
+                            <div class="form-group">
+                                <label for="Password">Password</label>
                                 <input type="password" class="form-control" id="Password" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Phone">Phone</label>
+                                <label for="Phone">Phone</label>
                                 <input type="text" class="form-control" id="Phone" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="floating-label" for="Address">Address</label>
+                                <label for="Address">Address</label>
                                 <textarea class="form-control" id="Address" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Department">Department</label>
+                                <label for="Department">Department</label>
                                 <select class="form-control" id="Department">
                                     <option value=""></option>
                                     <option value="1">Anesthetics</option>
@@ -132,9 +128,9 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group fill">
-                                <label class="floating-label" for="Icon">Profie Image</label>
-                                <input type="file" class="form-control" id="Icon" placeholder="sdf">
+                            <div class="form-group">
+                                <label for="Icon">Profile Image</label>
+                                <input type="file" class="form-control" id="Icon">
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -142,31 +138,31 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Facebook">Facebook Profile Link</label>
+                                <label for="Facebook">Facebook Profile Link</label>
                                 <input type="text" class="form-control" id="Facebook" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Twitter">Twitter Profile Link</label>
+                                <label for="Twitter">Twitter Profile Link</label>
                                 <input type="text" class="form-control" id="Twitter" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Google">Google Plus Link</label>
+                                <label for="Google">Google Plus Link</label>
                                 <input type="text" class="form-control" id="Google" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="floating-label" for="Linkedin">Linkedin Profile Link</label>
+                                <label for="Linkedin">LinkedIn Profile Link</label>
                                 <input type="text" class="form-control" id="Linkedin" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <button class="btn btn-primary">Submit</button>
-                            <button class="btn btn-danger">Clear</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-danger">Clear</button>
                         </div>
                     </div>
                 </form>
@@ -174,4 +170,7 @@
         </div>
     </div>
 </div>
+
+<!-- Bootstrap 5 JS Bundle with Popper -->
+
 {% endblock %}
