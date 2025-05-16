@@ -1,0 +1,4 @@
+python manage.py create_tenant_superuser \
+    --username=admin \
+    --email=admin@example.com \
+    --schema=public

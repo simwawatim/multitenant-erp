@@ -15,3 +15,25 @@ class Store(TenantMixin):
 class Domain(DomainMixin):
     def __str__(self):
         return self.domain
+    
+
+
+"""
+from store.models import Store, Domain
+
+tenant = Store(
+    schema_name='public', 
+    name='My First Tenant',
+    description='Initial tenant',
+    is_active=True
+)
+tenant.save()
+
+domain = Domain()
+domain.domain = 'localhost' 
+domain.tenant = tenant
+domain.is_primary = True
+domain.save()
+
+
+"""
