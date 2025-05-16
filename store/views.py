@@ -36,3 +36,6 @@ def stores(request):
         'stores': stores
     }
     return render(request, 'store/stores.html', context)
+
+def employees(request):
+    return render(request, 'store/employee.html')

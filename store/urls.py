@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.login, name='login'),
     path('home', views.home, name='home'),
     path('stores/', views.stores, name='stores'),
+    path('employees/', views.employees, name='employees'),
     path('login_user', views.login_user, name='login_user'),
 ]
 if settings.DEBUG:
