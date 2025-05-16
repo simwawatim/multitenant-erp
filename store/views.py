@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
+from store.models import Store, Domain
 
 
 def login(request):
@@ -30,4 +31,8 @@ def login_user(request):
             return redirect('login')
     
 def stores(request):
-    return render(request, 'store/stores.html')
+    stores = Store.objects.filter()
+    context = {
+        'stores': stores
+    }
+    return render(request, 'store/stores.html', context)
