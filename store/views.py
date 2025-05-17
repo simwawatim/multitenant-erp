@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login
+from store.helpers.create_password import generate_user_password
+from django.contrib.auth.models import User
 from django.contrib import messages
 from store.models import Store, Domain
 
@@ -82,6 +84,32 @@ def update_store_status(request, id, status):
     store.save()
     messages.success(request, "Store status updated successfully")
     return redirect('stores')  
+
+
+def create_main_store_employees(request):
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = generate_user_password(request)
+
+        check_email_if_exists = User.objects.filter(email = email)
+        if check_email_if_exists.exists():
+            messages.warning(request, 'User email already exists')
+            return redirect('employees')
+        
+        else:
+            create_user = User.objects.create_user(
+                first_name = first_name,
+                last_name = last_name,
+                email = email,
+                password = password
+            )
+            messages.success(request, 'User created succussfully')
+            return redirect('employees')
+
+
+
 
 
 
