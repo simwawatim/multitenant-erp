@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
@@ -61,3 +61,17 @@ def create_store(request):
 
     messages.success(request, 'Store created successfully')
     return redirect('stores')
+
+
+
+def update_store(request, id):
+    store = get_object_or_404(Store, id=id)
+    if request.method == "POST":
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        store.name = name
+        store.description = description
+        store.save()
+        messages.success(request, "Store updated successfully")
+
+        return redirect('stores') 

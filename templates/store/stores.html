@@ -61,10 +61,41 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <a href="#!" class="btn btn-info btn-sm"><i class="feather icon-edit"></i>&nbsp;Edit </a>
+                                            <a href="#!" data-bs-toggle="modal" data-bs-target="#modal-edit{{ store.id }}"class="btn btn-info btn-sm"><i class="feather icon-edit"></i>&nbsp;Edit </a>
                                             <a href="#!" class="btn btn-danger btn-sm"><i class="feather icon-trash-2"></i>&nbsp;Delete </a>
                                         </td>
                                     </tr>
+                                    <div class="modal fade" id="modal-edit{{ store.id }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <form action="{% url 'update_store' store.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group fill">
+                                                                    <label class="floating-label" for="Name">Name</label>
+                                                                    <input type="text" class="form-control" name="name" id="name" value="{{ store.name}}">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group fill">
+                                                                    <label class="floating-label" for="Description">Description</label>
+                                                                    <input type="text" class="form-control" name="description" id="description" value="{{ store.description }}">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-12 mt-3">
+                                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     {% endfor %}
                                  
                                 </tbody>
