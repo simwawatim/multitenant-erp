@@ -38,4 +38,26 @@ def stores(request):
     return render(request, 'store/stores.html', context)
 
 def employees(request):
+
     return render(request, 'store/employee.html')
+
+
+def create_store(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+    
+        tenant = Store.objects.create(
+                        schema_name= name,
+                        name= name,
+                        description = description,
+                        is_active=True)
+        tenant.save() 
+        domain = Domain()
+        domain.domain = f'{name}.localhost' 
+        domain.tenant = tenant
+        domain.is_primary = True
+        domain.save()
+
+    messages.success(request, 'Store created successfully')
+    return redirect('stores')

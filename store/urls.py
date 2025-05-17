@@ -12,6 +12,7 @@ urlpatterns = [
     path('stores/', views.stores, name='stores'),
     path('employees/', views.employees, name='employees'),
     path('login_user', views.login_user, name='login_user'),
+    path('create_store/', views.create_store, name='create_store'),
 ]
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL,
