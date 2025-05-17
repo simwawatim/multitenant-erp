@@ -75,3 +75,13 @@ def update_store(request, id):
         messages.success(request, "Store updated successfully")
 
         return redirect('stores') 
+    
+def update_store_status(request, id, status):
+    store = get_object_or_404(Store, id=id)
+    store.is_active = status.lower() == 'true' 
+    store.save()
+    messages.success(request, "Store status updated successfully")
+    return redirect('stores')  
+
+
+
