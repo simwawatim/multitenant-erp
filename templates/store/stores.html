@@ -1,8 +1,7 @@
 {% extends "store/includes/header.html" %}
-
 {% load static %}
-{% block content %}
 
+{% block content %}
 <div class="pcoded-main-container">
     <div class="pcoded-content">
         <!-- [ breadcrumb ] start -->
@@ -13,113 +12,116 @@
                         <div class="page-header-title">
                             <h5 class="m-b-10">Stores</h5>
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
         <!-- [ breadcrumb ] end -->
+
         <!-- [ Main Content ] start -->
         <div class="row">
-            <!-- customar project  start -->
             <div class="col-xl-12">
                 <div class="card">
-                    
                     <div class="card-body">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-report">
+                            <i class="feather icon-plus"></i> Add Store
+                        </button>
+                    </div>
 
-                         <button class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#modal-report"><i class="feather icon-plus"></i> Add Store</button>
-                            </div>
-                        <div class="row align-items-center m-l-0">
-                            <div class="col-sm-6">
-                            </div>
-                            <div class="col-sm-6 text-end">
-                               
-                        </div>
-                        <div class="table-responsive">
-                            <table id="report-table" class="table table-bordered table-striped mb-0">
-                                <thead>
-                                    <tr>
-                                        
-                                        <th>Name</th>
-                                        <th>Descriptions</th>
-                                        <th> Date join </th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     {% for store in stores %}
-                                    <tr>
-                                        <td>{{ store.name }}</td>
-                                        <td>{{ store.description }}</td>
-                                        <td>{{ store.created_at|date:"Y-m-d H:i" }}</td>
-                                        <td>
-                                            {% if store.is_active %}
-                                                <span class="badge bg-success">Active</span>
-                                            {% else %}
-                                                <span class="badge bg-danger">Inactive</span>
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                        <a href="#!" data-bs-toggle="modal" data-bs-target="#modal-edit{{ store.id }}"class="btn btn-info btn-sm"><i class="feather icon-edit"></i>&nbsp;Edit </a>
-                                        {% if  employee.is_active %}
+                    <div class="table-responsive">
+                        <table id="report-table" class="table table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Date Joined</th>
+                                    <th>Status</th>
+                                    <th>Domain</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in stores %}
+                                {% with store=item.store domain=item.domain %}
+                                <tr>
+                                    <td>{{ store.name }}</td>
+                                    <td>{{ store.description }}</td>
+                                    <td>{{ store.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>
+                                        {% if store.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if domain %}
+                                            <a href="http://{{ domain.domain }}:8000" target="_blank">{{ domain.domain }}</a>
+                                        {% else %}
+                                            <span class="text-muted">No domain</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="#!" data-bs-toggle="modal" data-bs-target="#modal-edit{{ store.id }}" class="btn btn-info btn-sm">
+                                            <i class="feather icon-edit"></i> Edit
+                                        </a>
+
+                                        {% if store.is_active %}
                                             <a href="{% url 'update_store_status' store.id 'false' %}" class="btn btn-danger btn-sm">
-                                                <i class="feather icon-trash-2"></i>&nbsp;Disable
+                                                <i class="feather icon-trash-2"></i> Disable
                                             </a>
                                         {% else %}
                                             <a href="{% url 'update_store_status' store.id 'true' %}" class="btn btn-success btn-sm">
-                                                <i class="feather icon-check"></i>&nbsp;Enable
+                                                <i class="feather icon-check"></i> Enable
                                             </a>
                                         {% endif %}
+                                    </td>
+                                </tr>
 
-                                        </td>
-                                    </tr>
-                                    <div class="modal fade" id="modal-edit{{ store.id }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <form action="{% url 'update_store' store.id %}" method="POST">
-                                                        {% csrf_token %}
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group fill">
-                                                                    <label class="floating-label" for="Name">Name</label>
-                                                                    <input type="text" class="form-control" name="name" id="name" value="{{ store.name}}">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group fill">
-                                                                    <label class="floating-label" for="Description">Description</label>
-                                                                    <input type="text" class="form-control" name="description" id="description" value="{{ store.description }}">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-12 mt-3">
-                                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                <!-- Edit Modal -->
+                                <div class="modal fade" id="modal-edit{{ store.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form action="{% url 'update_store' store.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group fill">
+                                                                <label for="name">Name</label>
+                                                                <input type="text" class="form-control" name="name" value="{{ store.name }}">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group fill">
+                                                                <label for="description">Description</label>
+                                                                <input type="text" class="form-control" name="description" value="{{ store.description }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 mt-3">
+                                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    {% endfor %}
-                                 
-                                </tbody>
-                            </table>
-                        </div>
+                                </div>
+                                {% endwith %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!-- customar project  end -->
         </div>
         <!-- [ Main Content ] end -->
     </div>
 </div>
 
-<div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<!-- Add Store Modal -->
+<div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -128,18 +130,16 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label" for="Name">Name</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="">
                             </div>
                         </div>
-
                         <div class="col-sm-12">
                             <div class="form-group fill">
-                                <label class="floating-label" for="Description">Description</label>
-                                <input type="text" class="form-control" name="description" id="description" placeholder="">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" name="description" placeholder="">
                             </div>
                         </div>
-
                         <div class="col-sm-12 mt-3">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
@@ -150,5 +150,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

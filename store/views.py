@@ -2,9 +2,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login
 from store.helpers.create_password import generate_user_password
+from store.helpers.random_username import generate_user_username
+from store.models import Store, Domain, Department
 from django.contrib.auth.models import User
 from django.contrib import messages
-from store.models import Store, Domain
+
 
 
 def login(request):
@@ -31,13 +33,20 @@ def login_user(request):
             print(0)
             messages.warning(request, 'Invalid username or password.')
             return redirect('login')
-    
+
+
+
 def stores(request):
-    stores = Store.objects.filter()
-    context = {
-        'stores': stores
-    }
-    return render(request, 'store/stores.html', context)
+    stores = Store.objects.all()
+    store_data = []
+    for store in stores:
+        domain = Domain.objects.filter(tenant=store).first()
+        store_data.append({
+            'store': store,
+            'domain': domain
+        })
+    return render(request, 'store/stores.html', {'stores': store_data})
+
 
 def employees(request):
     employees = User.objects.all()
@@ -95,7 +104,7 @@ def create_main_store_employees(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
-        username = "blank"
+        username = generate_user_username(request)
         password = generate_user_password(request)
 
         check_email_if_exists = User.objects.filter(email = email)
@@ -143,3 +152,9 @@ def update_user_status(request, id, status):
 
 
     
+def departements(request):
+    departments = Department.objects.all()
+    contex = {
+        'departments': departments
+    }
+    return render(request, 'store/departments.html', contex)
