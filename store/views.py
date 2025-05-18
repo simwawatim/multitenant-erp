@@ -40,8 +40,12 @@ def stores(request):
     return render(request, 'store/stores.html', context)
 
 def employees(request):
+    employees = User.objects.all()
 
-    return render(request, 'store/employee.html')
+    context = {
+        'employees': employees
+    }
+    return render(request, 'store/employee.html', context)
 
 
 def create_store(request):
@@ -91,6 +95,7 @@ def create_main_store_employees(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
+        username = "blank"
         password = generate_user_password(request)
 
         check_email_if_exists = User.objects.filter(email = email)
@@ -100,6 +105,7 @@ def create_main_store_employees(request):
         
         else:
             create_user = User.objects.create_user(
+                username = username,
                 first_name = first_name,
                 last_name = last_name,
                 email = email,
@@ -109,7 +115,31 @@ def create_main_store_employees(request):
             return redirect('employees')
 
 
+def admin_update_employee(request, id):
+    employee = get_object_or_404(User, id=id)
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        user_email = request.POST.get('email')
+
+        employee.first_name = first_name
+        employee.last_name = last_name
+        employee.email = user_email
+
+        employee.save()
+
+        messages.success(request, 'Employee profile updated successfully')
+        return redirect('employees')
+    else:
+        messages.warning(request, 'Error update successfully')
+        return redirect('employees')
+    
+def update_user_status(request, id, status):
+    employee = get_object_or_404(User, id=id)
+    employee.is_active = status.lower() == 'true' 
+    employee.save()
+    messages.success(request, 'User status updated succussfully')
+    return redirect('employees')
 
 
-
-
+    

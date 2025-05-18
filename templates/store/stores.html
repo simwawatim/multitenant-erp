@@ -61,16 +61,16 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <a href="#!" data-bs-toggle="modal" data-bs-target="#modal-edit{{ store.id }}"class="btn btn-info btn-sm"><i class="feather icon-edit"></i>&nbsp;Edit </a>
-                                            {% if store.is_active %}
-                                                <a href="{% url 'update_store_status' store.id 'false' %}" class="btn btn-danger btn-sm">
-                                                    <i class="feather icon-trash-2"></i>&nbsp;Disable
-                                                </a>
-                                            {% else %}
-                                                <a href="{% url 'update_store_status' store.id 'true' %}" class="btn btn-success btn-sm">
-                                                    <i class="feather icon-check"></i>&nbsp;Enable
-                                                </a>
-                                            {% endif %}
+                                        <a href="#!" data-bs-toggle="modal" data-bs-target="#modal-edit{{ store.id }}"class="btn btn-info btn-sm"><i class="feather icon-edit"></i>&nbsp;Edit </a>
+                                        {% if  employee.is_active %}
+                                            <a href="{% url 'update_store_status' store.id 'false' %}" class="btn btn-danger btn-sm">
+                                                <i class="feather icon-trash-2"></i>&nbsp;Disable
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'update_store_status' store.id 'true' %}" class="btn btn-success btn-sm">
+                                                <i class="feather icon-check"></i>&nbsp;Enable
+                                            </a>
+                                        {% endif %}
 
                                         </td>
                                     </tr>

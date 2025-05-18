@@ -17,6 +17,10 @@ class Domain(DomainMixin):
         return self.domain
     
 
+class Department(models.Model):
+    name = models.CharField()
+    description = models.CharField()
+
 
 """
 from store.models import Store, Domain

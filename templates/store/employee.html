@@ -37,31 +37,83 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
+                                    <th> Status <th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for store in stores %}
+                                {% for employee in employees%}
                                 <tr>
-                                    <td>{{ store.name }}</td>
-                                    <td>{{ store.description }}</td>
-                                    <td>{{ store.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ employee.id }}</td>
+                                    <td>{{ employee.first_name }}</td>
+                                    <td>{{ employee.last_name }} </td>
                                     <td>
-                                        {% if store.is_active %}
-                                            <span class="badge bg-success">Active</span>
+                                        {{ employee.email }}
+                                    </td>
+                                    <td>
+                                         {% if employee.is_active %}
+                                            <button class="btn btn-success"> Active</button>
                                         {% else %}
-                                            <span class="badge bg-danger">Inactive</span>
+                                            <button class="btn btn-danger"> Active</button>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <a href="#!" class="btn btn-info btn-sm">
+                                        <a href="#!" class="btn btn-info btn-sm"
+                                         data-bs-toggle="modal" data-bs-target="#modal-edit-user{{ employee.id}}">
                                             <i class="feather icon-edit"></i>&nbsp;Edit
                                         </a>
-                                        <a href="#!" class="btn btn-danger btn-sm">
-                                            <i class="feather icon-trash-2"></i>&nbsp;Delete
-                                        </a>
+                                       
+                                            {% if employee.is_active %}
+                                                <a href="{% url 'update_user_status' employee.id 'false' %}" class="btn btn-danger btn-sm">
+                                                    <i class="feather icon-trash-2"></i>&nbsp;Disable
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'update_user_status' employee.id 'true' %}" class="btn btn-success btn-sm">
+                                                    <i class="feather icon-check"></i>&nbsp;Enable
+                                                </a>
+                                            {% endif %}
+
                                     </td>
                                 </tr>
+                                <div class="modal fade" id="modal-edit-user{{ employee.id}}" tabindex="-1" aria-labelledby="modalReportLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        
+                                            <div class="modal-body">
+                                                <form action="{% url 'admin_update_employee' employee.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <!-- Form Fields -->
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="Name">First Name</label>
+                                                                <input type="text" class="form-control" name="first_name" value="{{ employee.first_name}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="text">Last Name </label>
+                                                                <input type="text" class="form-control" name="last_name" value="{{ employee.last_name}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label for="Email">Email</label>
+                                                                <input type="Email" class="form-control" name="email" value="{{ employee.email }}">
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="col-sm-12">
+                                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                                            <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -80,19 +132,20 @@
         <div class="modal-content">
           
             <div class="modal-body">
-                <form>
+                <form action="{% url 'create_main_store_employees' %}" method="post">
+                    {% csrf_token %}
                     <div class="row">
                         <!-- Form Fields -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="Name">First Name</label>
-                                <input type="text" class="form-control" id="Name" placeholder="">
+                                <input type="text" class="form-control" name="first_name" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="Email">Last Name </label>
-                                <input type="email" class="form-control" id="Email" placeholder="">
+                                <label for="text">Last Name </label>
+                                <input type="text" class="form-control" name="last_name" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-12">
